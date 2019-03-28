@@ -18,18 +18,16 @@
     <ion-item id="rounded">
       <ion-label fixed>Usuario:</ion-label>
       <br>
-      <ion-input type="text" [(ngModel)]="usuario"></ion-input>
+      <ion-input type="text" [(ngModel)]="txtUsuario"></ion-input>
     </ion-item>
     <br>
     <br>
     <ion-item id="rounded">
       <ion-label fixed>Clave:</ion-label>
       <br>
-      <ion-input type="text" [(ngModel)]="clave" ></ion-input>
+      <ion-input type="text" [(ngModel)]="txtClave" ></ion-input>
     </ion-item>     
   </ion-list>
-  <ion-button id="but" (click) ="sumar()">Entrar</ion-button>
-
-  <p>{{respuesta}}</p>
+  <ion-button id="but" (click) ="login()">Ingresar</ion-button>
   </div>
 </ion-content>
