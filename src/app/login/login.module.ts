@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { LoginComponent } from './login.component';
+import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { LoginComponent } from './login.component';
       }
     ])
   ],
-  declarations: [LoginComponent]
+  declarations: [LoginComponent],
+  providers:[AppPreferences]
 })
 export class LoginComponentModule {}

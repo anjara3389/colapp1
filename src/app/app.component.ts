@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { LoginComponent } from './login/login.component';
+import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 
 
 @Component({
@@ -11,29 +11,51 @@ import { LoginComponent } from './login/login.component';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+  private addMenu: boolean = false;
   public appPages = [
     {
-      title: 'Home',
+      title: 'Inicio',
       url: '/home',
       icon: 'home'
     },
     {
-      title: 'List',
+      title: 'Pagos',
       url: '/list',
-      icon: 'list'
+      icon: 'cash'
     },
     {
-      title: 'Login',
-      url: '/login',
-      icon: 'login'
+      title: 'Captación',
+      url: '/list',
+      icon: 'bookmarks'
+    },
+    {
+      title: 'Actualiz. Datos',
+      url: '/tercero',
+      icon: 'person'
+    },
+    {
+      title: 'Cartera',
+      url: '/list',
+      icon: 'wallet'
+    },
+    {
+      title: 'Novedades',
+      url: '/list',
+      icon: 'book'
     }
   ];
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private appPreferences: AppPreferences
   ) {
+   /* this.appPreferences.fetch('nombres').then((res) => {
+      console.log("RESPUSTA", res);
+      this.addMenu = res != null;
+      //
+    });*/
     this.initializeApp();
   }
 

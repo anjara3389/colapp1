@@ -3,23 +3,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-
-import { HomePage } from './home.page';
+import { TerceroComponent } from './tercero.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppPreferences } from '@ionic-native/app-preferences/ngx';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
+    
     RouterModule.forChild([
       {
         path: '',
-        component: HomePage
+        component: TerceroComponent
       }
     ])
   ],
-  declarations: [HomePage],
+  declarations: [TerceroComponent],
   providers:[AppPreferences]
 })
-export class HomePageModule {}
+export class TerceroComponentModule {}

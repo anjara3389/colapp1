@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: './login/login.module#LoginComponentModule'
+  },
+  {
+    path: 'tercero',
+    loadChildren: './tercero/tercero.module#TerceroComponentModule'
   }
 ];
 

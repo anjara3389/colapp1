@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { SQLite } from '@ionic-native/sqlite/ngx';
+import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,13 +21,15 @@ import { HttpModule } from '@angular/http';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    SQLite,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AppPreferences
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
