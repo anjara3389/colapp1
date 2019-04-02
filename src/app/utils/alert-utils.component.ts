@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 
 
@@ -14,7 +15,8 @@ export class AlertUtilsComponent implements OnInit {
 
   }
 
-  constructor(public alertController: AlertController
+  constructor(public alertController: AlertController,
+    private toastController: ToastController
   ) {
 
   }
@@ -25,8 +27,16 @@ export class AlertUtilsComponent implements OnInit {
       message: message,
       buttons: ['OK']
     });
-
     await alert.present();
   }
+  async presentToast(nMessage: string) {
+    const toast = await this.toastController.create({
+      message: nMessage,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+
 
 }

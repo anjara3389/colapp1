@@ -33,26 +33,27 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.txtUsuario != null && this.txtClave != null && this.txtUsuario.trim().length != 0 && this.txtClave.trim().length != 0) {
-      var observ = this.wServConnectService.post("SELECT t.nombres,tc.nit,tc.usuario,tc.contrasena " +
+      this.wServConnectService.post("SELECT t.nombres,tc.nit,tc.usuario,tc.contrasena " +
         "FROM TercerosContrasena tc " +
         "INNER JOIN Terceros t on t.nit=tc.nit " +
         "WHERE tc.usuario=UPPER('" + this.txtUsuario + "') " +
-        "AND tc.contrasena=UPPER('" + this.txtClave + "') ");
+        "AND tc.contrasena=UPPER('" + this.txtClave + "') ").
+        subscribe(data => {
+          if (data.length > 0) {
+            console.log("HEEERE", data);
+            this.appPreferences.store('nombres', data[0]['nombres']);
+            this.appPreferences.store('usuario', data[0]['usuario']);
+            this.appPreferences.store('contrasena', data[0]['contrasena']);
+            this.appPreferences.store('nit', data[0]['nit']);
 
-      observ.subscribe(data => {
-        if (data.length > 0) {
-          //this.navCtrl.(HomePage);
-          console.log("HEEERE", data);
-          this.appPreferences.store('nombres', data[0]['nombres']);
-          this.appPreferences.store('usuario', data[0]['usuario']);
-          this.appPreferences.store('contrasena', data[0]['contrasena']);
-          this.appPreferences.store('nit', data[0]['nit']);
-
-          this.router.navigate(['/home']);
-        } else {
-          this.alertUtils.presentOKAlert('Error', 'Usuario y/o contraseña incorrectos.');
-        }
-      });
+            this.router.navigate(['/home']);
+          } else {
+            this.alertUtils.presentOKAlert('Error', 'Usuario y/o contraseña incorrectos.');
+          }
+        }, error => {
+          this.alertUtils.presentOKAlert('Error', error);
+          console.error(error);
+        });
     } else {
       this.alertUtils.presentOKAlert('Campos incompletos', 'Debe rellenar todos los campos.');
     }
