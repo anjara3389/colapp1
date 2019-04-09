@@ -23,31 +23,9 @@
     }
 
     ion-content{
-        background-image: url('../imgs/fondo.jpg');
-        background: url('../imgs/fondo.jpg');
+        --background: url('../imgs/fondo.jpg') no-repeat center center / cover;
+        background-color: transparent;
     }
-
-    app-login {
-        .scroll-content{
-            background-image: url('../imgs/fondo.jpg');
-            background: url('../imgs/fondo.jpg');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-        }
-    }
-    app-login {
-        .bg-image{
-            background-image: url('../imgs/fondo.jpg');
-            background: url('../imgs/fondo.jpg');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-        }
-    }
-   /*ion-content{
-      background-color: transparent;
-    }*/
 
     ion-icon{
         color: gray !important;
