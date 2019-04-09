@@ -6,8 +6,6 @@ import { MenuController } from '@ionic/angular';
 import { AlertUtilsComponent } from '../utils/alert-utils.component';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
-
-
 @Component({
   selector: 'app-tercero',
   templateUrl: './tercero.component.html',

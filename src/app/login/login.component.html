@@ -1,33 +1,17 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ingresar
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <div class="ion-padding">
-    <!-- The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>-->
-
-  <h1>Ingresar</h1>
-  <p>Introducir usuario y clave</p>
-  <ion-list>
-
-    <ion-item id="rounded">
-      <ion-label fixed>Usuario:</ion-label>
+  <div class='pad'>
+    <ion-list>
+      <ion-item id="rounded">
+        <br>
+        <ion-input type="text" placeholder="Usuario" [(ngModel)]="txtUsuario"><ion-icon name="person" item-start padding-end></ion-icon></ion-input>
+      </ion-item>
       <br>
-      <ion-input type="text" [(ngModel)]="txtUsuario"></ion-input>
-    </ion-item>
-    <br>
-    <br>
-    <ion-item id="rounded">
-      <ion-label fixed>Clave:</ion-label>
       <br>
-      <ion-input type="text" [(ngModel)]="txtClave" ></ion-input>
-    </ion-item>     
-  </ion-list>
-  <ion-button id="but" (click) ="login()">Ingresar</ion-button>
+      <ion-item id="rounded">
+        <br>
+        <ion-input type="password" placeholder="Clave" [(ngModel)]="txtClave"><ion-icon name="key" item-start padding-end></ion-icon></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button id="but" (click)="login()" color="warning">Ingresar</ion-button>
   </div>
 </ion-content>

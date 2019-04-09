@@ -3,21 +3,38 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Inicio
-    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/shapes.svg"></ion-img>
-      <ion-card-header>
-        <ion-card-subtitle>Bienvenido</ion-card-subtitle>
-        <ion-card-title>{{nombres}}, Bienvenido(a)</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-   <!-- <ion-list lines="none">
+  <ion-card class="welcome-card">
+    <ion-img src="/assets/shapes.svg"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>Bienvenido</ion-card-subtitle>
+      <ion-card-title>{{nombres}}, Bienvenido(a)</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  <div class="grid-container">
+    <div class="grid-item">
+      <ion-fab-button color="warning">
+        <ion-icon name="cash"></ion-icon>
+      </ion-fab-button>
+    </div>
+    <div class="grid-item">
+      <ion-fab-button color="warning">
+        <ion-icon name="bookmark"></ion-icon>
+      </ion-fab-button>
+    </div>
+    <div class="grid-item">
+      <ion-fab-button color="warning">
+        <ion-icon name="wallet"></ion-icon>
+      </ion-fab-button>
+    </div>
+    <div class="grid-text"><small>Pagos</small></div>
+    <div class="grid-text"><small>Captación</small></div>
+    <div class="grid-text"><small>Cartera</small></div>
+  </div>
+  <!-- <ion-list lines="none">
       <ion-list-header>
         <ion-label>Resources</ion-label>
       </ion-list-header>
