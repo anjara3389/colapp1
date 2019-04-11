@@ -5,22 +5,42 @@ import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 import { MenuController } from '@ionic/angular';
 import { AlertUtilsComponent } from '../utils/alert-utils.component';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { GoogleDriveProviderService } from '../google-drive-provider.service';
+
 
 @Component({
   selector: 'app-tercero',
   templateUrl: './tercero.component.html',
   styleUrls: ['./tercero.component.scss'],
+  providers: [GoogleDriveProviderService]
 })
 export class TerceroComponent implements OnInit {
   dataForm: FormGroup;
+
+  persons: Array<any>;
+  dataId: string;
 
   constructor(private emailComposer: EmailComposer,
     private formBuilder: FormBuilder,
     private wServConnectService: WservConnectService,
     private appPreferences: AppPreferences,
     public menuCtrl: MenuController,
-    public alertUtils: AlertUtilsComponent) {
+    public alertUtils: AlertUtilsComponent,
+    gDrive: GoogleDriveProviderService) {
     this.dataForm = this.createForm();
+
+
+    //this.dataId = '15Kndr-OcyCUAkBUcq6X3BMqKa_y2fMAXfPFLiSACiys';
+    this.dataId = '1ioSUoE0wAPH6hB7Yv1wyrte83V2-ePnR2r2Fm2xbESQ';
+    
+
+    gDrive.load(this.dataId)
+      .then((data) => {
+        console.log("DATAAAAA" + JSON.stringify(data[0], null, 4));
+        this.persons = data;
+      }, (error) => {
+        console.log(error);
+      });
 
     this.appPreferences.fetch('nit').then((res) => {
       console.log(res);
@@ -96,7 +116,5 @@ export class TerceroComponent implements OnInit {
         });*/
     });
   }
-
-
 
 }
