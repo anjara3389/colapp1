@@ -84,7 +84,8 @@ export class TerceroComponent implements OnInit {
     console.log(this.dataForm.value);
     this.appPreferences.fetch('nit').then((res) => {
 
-      this.gDrive.writeToSheet(this.dataId);
+      //this.gDrive.writeToSheet(this.dataId);
+      //this.gDrive.example(this.dataId);
       /*this.emailComposer.isAvailable().then((available: boolean) => {
         if (available) {*/
       //Now we know we can send
