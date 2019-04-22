@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'tercero',
     loadChildren: './tercero/tercero.module#TerceroComponentModule'
+  },
+  {
+    path: 'pdf-cartera',
+    loadChildren: './pdf-cartera/pdf-cartera.module#PdfCarteraComponentModule'
   }
 ];
 

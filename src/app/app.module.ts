@@ -13,6 +13,10 @@ import { HttpModule } from '@angular/http';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 
+//import { File } from '@ionic-native/file';
+//import { FileOpener } from '@ionic-native/file-opener';
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -28,7 +32,7 @@ import { AppPreferences } from '@ionic-native/app-preferences/ngx';
     SplashScreen,
     SQLite,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AppPreferences
+    AppPreferences,
   ],
   bootstrap: [AppComponent]
 })

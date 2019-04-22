@@ -35,7 +35,7 @@ export class AppComponent {
     },
     {
       title: 'Cartera',
-      url: '/list',
+      url: '/pdf-cartera',
       icon: 'wallet'
     },
     {
