@@ -78,7 +78,7 @@ export class PdfCarteraComponent implements OnInit {
         "documentos.notas, " +
         "documentos.prefijo, " +
         "tipo_transacciones.descripcion, " +
-        "terceros_3.descripcion, " +
+        "terceros_3.descripcion as descripciont, " +
         "{ fn IFNULL(terceros.concepto_3, '' )}" +
         "FROM " +
         "{ oj(((colacteos.dbo.v_cartera_edades_cxc v_cartera_edades_cxc INNER JOIN colacteos.dbo.terceros terceros ON " +
@@ -92,10 +92,10 @@ export class PdfCarteraComponent implements OnInit {
         "terceros.concepto_3 = terceros_3.concepto_3 } " +
         "WHERE v_cartera_edades_cxc.vencimiento >= '20190501' " +
         "AND v_cartera_edades_cxc.vencimiento <= '20190530' " +
-        "AND v_cartera_edades_cxc.nit = '800056624' ").subscribe(data => {
+        "AND v_cartera_edades_cxc.nit = '" + res + "' ").subscribe(data => {
           if (data.length > 0) {
             console.log("DATOS LISTOS", data);
-            this.exportPdf(data);
+            this.exportPdf(data, res);
 
 
             /*this.dataForm.controls['nombres'].setValue(data[0]['nombres']);
@@ -113,19 +113,50 @@ export class PdfCarteraComponent implements OnInit {
     });
   }
 
-  exportPdf(data) {
+  exportPdf(data, nit) {
     this.presentLoading('Creando archivo PDF...');
-  
-    var doc = new jsPDF("p", "pt", "letter");
+
+    //var doc = new jsPDF("p", "mm", [215.9, 279.4]);
+    var doc = new jsPDF({
+      orientation: 'p',
+      unit: 'pt',
+      format: 'letter'
+    })
+    
 
     doc.setFont("times");
-    doc.setFontSize(20);
+    doc.setFontSize(8);
     doc.setFontStyle('bold');
 
-    doc.text(27, 7, "COOPERATIVA DE PRODUCTOS LACTEOS DE NARIÑO LTDA.");
-    doc.text(45, 11, "EXTRACTO CARTERA CLIENTE");
-    doc.text(130, 11, "0-Mes-0000");
-    doc.text(27, 20, data[0]['nombres']);
+    doc.text(78, 21, 'COOPERATIVA DE PRODUCTOS LACTEOS DE NARIÑO LTDA.');
+    doc.text(45, 11, 'EXTRACTO CARTERA CLIENTE');
+    doc.setFontSize(6);
+    doc.text(370, 34, '0-Mes-0000');
+    doc.text(7, 20, data[0]['nombres']);
+    doc.text(105, 20, data[0]['ciudad']);
+    doc.text(80, 20, nit.toString());
+    //console.log("nit", nit);
+
+    doc.setFontStyle('normal');
+    doc.text(6, 24, 'DIRECCIÓN: ' + data[0]['direccion']);
+    doc.text(88, 24, 'TELEFONO: ' + data[0]['telefono']);
+    //doc.text(27, 20, 'CÓDIGO: ' + data[0]['telefono']);
+    //doc.text(27, 20, 'LISTA: ' + data[0]['telefono']);
+
+    for (i = 0; i < data.length; i++) {
+      var space = (10 * i) + 37;
+
+      doc.text(9, space, data[i]['Tipo'].toString());
+
+      doc.text(19, space, data[i]['Numero'].toString());
+      doc.text(26, space, data[i]['Fecha'].toString());
+      doc.text(39, space, data[i]['Vencimiento'].toString());
+      doc.text(53, space, data[i]['Dias_Vencido'].toString());
+      doc.text(60, space, data[i]['documento'] != null ? data[i]['documento'].toString() : '');
+      doc.text(68, space, data[i]['descripcion'] != null ? data[i]['descripcion'].toString() : '');
+      doc.text(90, space, data[i]['notas'] != null ? data[i]['notas'].toString() : '');
+      doc.text(141, space, data[i]['Saldo'].toString());
+    }
 
 
     let pdfOutput = doc.output();
@@ -151,8 +182,8 @@ export class PdfCarteraComponent implements OnInit {
           //this.loading.dismiss();
           console.log("Creado exitosamente" + JSON.stringify(success));
           this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
-            .then(() => console.log('File is opened'))
-            .catch(e => console.log('Error opening file', e));
+            .then(() => console.log('El archivo está abierto'))
+            .catch(e => console.log('Error al abril el archivo', e));
         })
         .catch((error) => {
           //this.loading.dismiss();

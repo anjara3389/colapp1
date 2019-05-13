@@ -34,9 +34,9 @@
         <ion-icon name="wallet"></ion-icon>
       </ion-fab-button>
     </div>
-    <div class="grid-text"><small>Pagos</small></div>
-    <div class="grid-text"><small>Captación</small></div>
-    <div class="grid-text" routerLink="/pdf-cartera"><small>Cartera</small></div>
+    <div class="grid-text" [routerDirection]="'root'" [routerLink]="/list"><small>Pagos</small></div>
+    <div class="grid-text" [routerDirection]="'root'" [routerLink]="/list"><small>Captación</small></div>
+    <div class="grid-text" (click)="getExtractos()"><small>Cartera</small></div>
   </div>
   <!-- <ion-list lines="none">
       <ion-list-header>
