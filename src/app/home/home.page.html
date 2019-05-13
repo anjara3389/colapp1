@@ -19,24 +19,24 @@
   <p class="white-text">{{nombres}}</p>
 
   <div class="grid-container" id="abajo">
-    <div class="grid-item">
+    <div class="grid-item" [routerDirection]="'root'" routerLink="/list">
       <ion-fab-button color="warning">
         <ion-icon name="cash"></ion-icon>
       </ion-fab-button>
     </div>
-    <div class="grid-item">
+    <div class="grid-item" [routerDirection]="'root'" routerLink="/list">
       <ion-fab-button color="warning">
         <ion-icon name="bookmark"></ion-icon>
       </ion-fab-button>
     </div>
-    <div class="grid-item">
+    <div class="grid-item" (click)="getExtractos()">
       <ion-fab-button color="warning">
         <ion-icon name="wallet"></ion-icon>
       </ion-fab-button>
     </div>
-    <div class="grid-text" [routerDirection]="'root'" [routerLink]="/list"><small>Pagos</small></div>
-    <div class="grid-text" [routerDirection]="'root'" [routerLink]="/list"><small>Captación</small></div>
-    <div class="grid-text" (click)="getExtractos()"><small>Cartera</small></div>
+    <div class="grid-text"><small>Pagos</small></div>
+    <div class="grid-text"><small>Captación</small></div>
+    <div class="grid-text"><small>Cartera</small></div>
   </div>
   <!-- <ion-list lines="none">
       <ion-list-header>

@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'pdf-cartera',
     loadChildren: './pdf-cartera/pdf-cartera.module#PdfCarteraComponentModule'
+  },
+  {
+    path: 'novedades',
+    loadChildren: './novedades/novedades.module#NovedadesComponentModule'
   }
 ];
 

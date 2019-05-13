@@ -8,6 +8,7 @@ import { File, IWriteOptions } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { WservConnectService } from './wserv-connect.service';
 import { AlertUtilsComponent } from './utils/alert-utils.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,31 +31,29 @@ export class AppComponent {
       title: 'Pagos',
       url: '/list',
       icon: 'cash',
-      action: false
     },
     {
       title: 'Captación',
       url: '/list',
       icon: 'bookmarks',
-      action: false
     },
     {
       title: 'Actualiz. Datos',
       url: '/tercero',
       icon: 'person',
-      action: false
     },
     {
       title: 'Cartera',
-      url: '/pdf-cartera',
       icon: 'wallet',
-      action: true
     },
     {
       title: 'Novedades',
-      url: '/list',
+      url: '/novedades',
       icon: 'book',
-      action: false
+    },
+    {
+      title: 'Cerrar Sesión',
+      icon: 'log-out',
     }
   ];
 
@@ -68,7 +67,8 @@ export class AppComponent {
     private wServConnectService: WservConnectService,
     public menuCtrl: MenuController,
     private alertUtils: AlertUtilsComponent,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public router: Router,
   ) {
     /* this.appPreferences.fetch('nombres').then((res) => {
        console.log("RESPUSTA", res);
@@ -220,7 +220,7 @@ export class AppComponent {
       //Writing File to Device
       this.file.writeFile(directory, fileName, buffer, options2)
         .then((success) => {
-         // this.loading.dismiss();
+          // this.loading.dismiss();
           console.log("Creado exitosamente" + JSON.stringify(success));
           this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
             .then(() => console.log('El archivo está abierto'))
@@ -235,16 +235,25 @@ export class AppComponent {
         //Writing File to Device
         this.file.writeFile(directory, fileName, buffer)
           .then((success) => {
-           // this.loading.dismiss();
+            // this.loading.dismiss();
             console.log("Creado exitosamente" + JSON.stringify(success));
             this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
               .then(() => console.log('El archivo está abierto'))
               .catch(e => console.log('Error al abrir el archivo', e));
           })
           .catch((error) => {
-           // this.loading.dismiss();
+            // this.loading.dismiss();
             console.log("No se puede crear el archivo " + JSON.stringify(error));
           });
+      });
+  }
+
+  cerrarSesion() {
+    this.appPreferences.clearAll().then((data) => {
+      this.router.navigate(['/login']);
+    })
+      .catch((error) => {
+        this.alertUtils.presentOKAlert('Error', error);
       });
   }
 
