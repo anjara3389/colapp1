@@ -224,11 +224,15 @@ export class AppComponent {
           console.log("Creado exitosamente" + JSON.stringify(success));
           this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
             .then(() => console.log('El archivo está abierto'))
-            .catch(e => console.log('Error al abril el archivo', e));
+            .catch(e => {
+              console.log('Error al abril el archivo', e);
+              this.alertUtils.presentOKAlert('Error', e);
+            });
         })
         .catch((error) => {
           //this.loading.dismiss();
           console.log("No se puede crear el archivo " + JSON.stringify(error));
+          this.alertUtils.presentOKAlert('Error', error);
         });
     })
       .catch((error) => {
@@ -239,10 +243,15 @@ export class AppComponent {
             console.log("Creado exitosamente" + JSON.stringify(success));
             this.fileOpener.open(this.file.dataDirectory + fileName, 'application/pdf')
               .then(() => console.log('El archivo está abierto'))
-              .catch(e => console.log('Error al abrir el archivo', e));
+              .catch(e => {
+                console.log('Error al abrir el archivo', e);
+                this.alertUtils.presentOKAlert('Error', e);
+
+              });
           })
           .catch((error) => {
             // this.loading.dismiss();
+            this.alertUtils.presentOKAlert('Error', error);
             console.log("No se puede crear el archivo " + JSON.stringify(error));
           });
       });
