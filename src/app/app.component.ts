@@ -10,6 +10,8 @@ import { WservConnectService } from './wserv-connect.service';
 import { AlertUtilsComponent } from './utils/alert-utils.component';
 import { Router } from '@angular/router';
 
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,7 @@ export class AppComponent {
   private addMenu: boolean = false;
 
   loading: any;
+
   public appPages = [
     {
       title: 'Inicio',
@@ -68,6 +71,7 @@ export class AppComponent {
     private alertUtils: AlertUtilsComponent,
     public loadingCtrl: LoadingController,
     public router: Router,
+
   ) {
     /* this.appPreferences.fetch('nombres').then((res) => {
        console.log("RESPUSTA", res);
@@ -75,6 +79,7 @@ export class AppComponent {
        //
      });*/
     this.initializeApp();
+    //moment.locale('es');
   }
 
   initializeApp() {
@@ -168,34 +173,54 @@ export class AppComponent {
     doc.setFontSize(8);
     doc.setFontStyle('bold');
 
-    doc.text(78, 21, 'COOPERATIVA DE PRODUCTOS LACTEOS DE NARIÑO LTDA.');
-    doc.text(45, 11, 'EXTRACTO CARTERA CLIENTE');
+    doc.text(116.22, 70.87, 'COOPERATIVA DE PRODUCTOS LACTEOS DE NARIÑO LTDA.');
+    doc.text(184.2, 85, 'EXTRACTO CARTERA CLIENTE');
     doc.setFontSize(6);
-    doc.text(370, 34, '0-Mes-0000');
-    doc.text(7, 20, data[0]['nombres']);
-    doc.text(105, 20, data[0]['ciudad']);
+    doc.text(507.5, 90.71, '0-Mes-0000');
+    doc.text(45.35, 119.05, data[0]['nombres']);
+    doc.text(399.68, 119.05, data[0]['ciudad']);
     doc.text(80, 20, nit.toString());
     //console.log("nit", nit);
 
     doc.setFontStyle('normal');
-    doc.text(6, 24, 'DIRECCIÓN: ' + data[0]['direccion']);
-    doc.text(88, 24, 'TELEFONO: ' + data[0]['telefono']);
+    doc.text(45.35, 133.22, 'DIRECCIÓN: ' + data[0]['direccion']);
+    doc.text(340.15, 133.22, 'TELEFONO: ' + data[0]['telefono']);
     //doc.text(27, 20, 'CÓDIGO: ' + data[0]['telefono']);
     //doc.text(27, 20, 'LISTA: ' + data[0]['telefono']);
 
     for (i = 0; i < data.length; i++) {
-      var space = (10 * i) + 37;
+      var space = (28.34 * i) + 185.25;
+      console.log('aqui', data[i]['Fecha'].toString());
 
-      doc.text(9, space, data[i]['Tipo'].toString());
+      moment.locale('en-US');
+      //Apr 26 2019 12:00:00:000AM
+      const venc = moment(data[i]['Vencimiento'].toString(), 'MMM-DD-YYYY HH:mm:ssZ');
+      const fecha = moment(data[i]['Fecha'].toString(), 'MMM-DD-YYYY HH:mm:ssZ');
 
-      doc.text(19, space, data[i]['Numero'].toString());
-      doc.text(26, space, data[i]['Fecha'].toString());
-      doc.text(39, space, data[i]['Vencimiento'].toString());
-      doc.text(53, space, data[i]['Dias_Vencido'].toString());
-      doc.text(60, space, data[i]['documento'] != null ? data[i]['documento'].toString() : '');
-      doc.text(68, space, data[i]['descripcion'] != null ? data[i]['descripcion'].toString() : '');
-      doc.text(90, space, data[i]['notas'] != null ? data[i]['notas'].toString() : '');
-      doc.text(141, space, data[i]['Saldo'].toString());
+      moment.locale('es');
+      
+
+      doc.text(53.85, space, data[i]['Tipo'].toString());
+      doc.text(85.03, space, data[i]['Numero'].toString());
+      
+      const fFecha = fecha.format('D-MMM-YYYY');
+      const fVenc = venc.format('D-MMM-YYYY');
+      console.log('aqui2', fFecha);
+      doc.text(113.38, space, fFecha);
+      doc.text(161.57, space, fVenc);
+      doc.text(215.433, space, data[i]['Dias_Vencido'].toString());
+      //doc.text(60, space, data[i]['documento'] != null ? data[i]['documento'].toString() : '');
+      if (data[i]['descripcion'] != null) {
+        //this.alertUtils.presentOKAlert('!!!!!!!', data[i]['descripcion'].toString().length);
+        if (data[i]['descripcion'].toString().length > 15) {
+          doc.text(280.629, space, data[i]['descripcion'].toString().substring(0, 15));
+          doc.text(280.629, (space + 5.67), data[i]['descripcion'].toString().substring(15));
+        } else {
+          doc.text(280.629, space, data[i]['descripcion'].toString());
+        }
+      }
+      //doc.text(90, space, data[i]['notas'] != null ? data[i]['notas'].toString() : '');
+      doc.text(535.74, space, data[i]['Saldo'].toString());
     }
 
 
