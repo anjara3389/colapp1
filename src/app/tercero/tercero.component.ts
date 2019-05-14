@@ -6,6 +6,7 @@ import { MenuController } from '@ionic/angular';
 import { AlertUtilsComponent } from '../utils/alert-utils.component';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { GoogleDriveProviderService } from '../google-drive-provider.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class TerceroComponent implements OnInit {
     private appPreferences: AppPreferences,
     public menuCtrl: MenuController,
     private alertUtils: AlertUtilsComponent,
-    private gDrive: GoogleDriveProviderService) {
+    private gDrive: GoogleDriveProviderService,
+    public router: Router) {
     this.dataForm = this.createForm();
 
 
@@ -67,7 +69,11 @@ export class TerceroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.appPreferences.fetch('nit').then((res) => {
+      if (res == null || res == '') {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   private createForm() {

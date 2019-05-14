@@ -25,7 +25,6 @@ export class AppComponent {
       title: 'Inicio',
       url: '/home',
       icon: 'home',
-      action: false
     },
     {
       title: 'Pagos',

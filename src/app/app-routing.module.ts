@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+
+
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo:'splash',
     pathMatch: 'full'
   },
   {
@@ -30,6 +32,10 @@ const routes: Routes = [
   {
     path: 'novedades',
     loadChildren: './novedades/novedades.module#NovedadesComponentModule'
+  },
+  {
+    path: 'splash',
+    loadChildren: './splash/splash.module#SplashComponentModule'
   }
 ];
 
@@ -39,4 +45,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

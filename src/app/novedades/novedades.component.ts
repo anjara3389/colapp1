@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppPreferences } from '@ionic-native/app-preferences/ngx';
 
 @Component({
   selector: 'app-novedades',
@@ -7,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NovedadesComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router,
+    private appPreferences: AppPreferences) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.appPreferences.fetch('nit').then((res) => {
+      if (res == null || res == '') {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 
 }
