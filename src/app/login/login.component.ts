@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.txtUsuario != null && this.txtClave != null && this.txtUsuario.trim().length != 0 && this.txtClave.trim().length != 0) {
-      this.wServConnectService.post("SELECT t.nombres,tc.nit,tc.usuario,tc.contrasena " +
+      this.wServConnectService.post("SELECT t.nombres,tc.nit,tc.usuario,tc.contrasena,t.sexo " +
         "FROM TercerosContrasena tc " +
         "INNER JOIN Terceros t on t.nit=tc.nit " +
         "WHERE tc.usuario=UPPER('" + this.txtUsuario + "') " +
@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
             this.appPreferences.store('usuario', data[0]['usuario']);
             this.appPreferences.store('contrasena', data[0]['contrasena']);
             this.appPreferences.store('nit', data[0]['nit']);
+            this.appPreferences.store('sexo', data[0]['sexo']);
 
             this.router.navigate(['/home']);
           } else {

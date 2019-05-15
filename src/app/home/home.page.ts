@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
   private nombres: String;
+  private saludo: String;
   constructor(private appPreferences: AppPreferences,
     public menuCtrl: MenuController,
     private appComponent: AppComponent,
@@ -20,9 +21,12 @@ export class HomePage {
         this.router.navigate(['/login']);
       } else {
         this.appPreferences.fetch('nombres').then((nombres) => {
-          console.log(nombres);
-          this.nombres = nombres;
-          menuCtrl.enable(true);
+          this.appPreferences.fetch('sexo').then((sexo) => {
+            console.log(nombres);
+            this.nombres = nombres;
+            this.saludo = 'Bienvenid' + sexo == 'M' ? 'o' : 'a';
+            menuCtrl.enable(true);
+          });
         });
       }
     });

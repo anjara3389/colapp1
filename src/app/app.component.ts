@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 
 import * as moment from 'moment';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -22,6 +21,13 @@ export class AppComponent {
   private addMenu: boolean = false;
 
   loading: any;
+
+  months = new Array(['01', 'Ene'], ['02', 'Feb'], ['03', 'Mar'],
+    ['04', 'Abr'], ['05', 'May'],
+    ['06', 'Jun'], ['07', 'Jul'],
+    ['08', 'Ago'], ['09', 'Sep'],
+    ['10', 'Oct'], ['11', 'Nov'],
+    ['12', 'Dic']);
 
   public appPages = [
     {
@@ -141,13 +147,6 @@ export class AppComponent {
           if (data.length > 0) {
             console.log("DATOS LISTOS", data);
             this.exportPdf(data, res);
-
-
-            /*this.dataForm.controls['nombres'].setValue(data[0]['nombres']);
-            this.dataForm.controls['direccion'].setValue(data[0]['direccion']);
-            this.dataForm.controls['telefono1'].setValue(data[0]['telefono1']);
-            this.dataForm.controls['telefono2'].setValue(data[0]['telefono2']);
-            this.dataForm.controls['mail'].setValue(data[0]['mail']);*/
           } else {
             this.alertUtils.presentOKAlert('Error', 'Hubo un error al traer los datos');
           }
@@ -168,56 +167,75 @@ export class AppComponent {
       format: 'letter'
     })
 
-
+    //ENCABEZADO
     doc.setFont("times");
-    doc.setFontSize(8);
+    doc.setFontSize(10);
     doc.setFontStyle('bold');
-
     doc.text(116.22, 70.87, 'COOPERATIVA DE PRODUCTOS LACTEOS DE NARIÑO LTDA.');
     doc.text(184.2, 85, 'EXTRACTO CARTERA CLIENTE');
-    doc.setFontSize(6);
-    doc.text(507.5, 90.71, '0-Mes-0000');
-    doc.text(45.35, 119.05, data[0]['nombres']);
-    doc.text(399.68, 119.05, data[0]['ciudad']);
-    doc.text(80, 20, nit.toString());
-    //console.log("nit", nit);
-
+    doc.setFontSize(8);
     doc.setFontStyle('normal');
-    doc.text(45.35, 133.22, 'DIRECCIÓN: ' + data[0]['direccion']);
-    doc.text(340.15, 133.22, 'TELEFONO: ' + data[0]['telefono']);
+    doc.text(507.5, 90.71, this.formatFecha(moment()));
+    doc.setLineWidth(1.5);
+    doc.line(42.51, 113.38, 467.7, 113.385);
+    doc.text(472.22, 113.385, 'Página');
+    doc.text(524.4, 113.385, '* de');
+    doc.text(552.75, 113.385, '*');
+
+    doc.setFontStyle('bold');
+    doc.text(45.35, 119.05, data[0]['nombres']);
+    doc.text(337.32, 119.05, "NIT");
+    doc.setFontStyle('normal');
+    doc.text(365.66, 119.05, nit.toString());
+    doc.text(399.68, 119.05, data[0]['ciudad']);
+
+    doc.setFontStyle('bold');
+    doc.text(45.35, 133.22, 'DIRECCIÓN:');
+    doc.text(104.88, 133.22, data[0]['direccion']);
+    doc.text(340.15, 133.22, 'TELEFONO:');
+    doc.text(385.51, 133.22, !!data[0]['telefono'] ? data[0]['telefono'] : '');
+
+    //FALTA ESTA FILA
     //doc.text(27, 20, 'CÓDIGO: ' + data[0]['telefono']);
     //doc.text(27, 20, 'LISTA: ' + data[0]['telefono']);
 
+    //SUBENCABEZADO LISTA
+    doc.setFontStyle('bold');
+    doc.text(56.69, 167.244, 'Tipo');
+    doc.text(82.204, 167.244, 'Número');
+    doc.text(119.055, 167.244, 'Fecha:');
+    doc.text(155.90, 167.244, 'Vencimiento');
+    doc.text(212.598, 167.244, 'Dias');
+    doc.text(232.440, 167.244, 'DOC');
+    doc.text(272.125, 167.244, 'Descripcion');
+    doc.text(413.85, 167.244, 'Notas');
+    doc.text(544.251, 167.244, 'Saldo');
+    doc.setLineWidth(1);
+    doc.line(34.015, 170.07, 581.102, 170.07);
+
+
+    //CONTENIDO
+    doc.setFontStyle('normal');
     for (i = 0; i < data.length; i++) {
       var space = (28.34 * i) + 185.25;
-      console.log('aqui', data[i]['Fecha'].toString());
 
-      moment.locale('en-US');
-      //Apr 26 2019 12:00:00:000AM
-      const venc = moment(data[i]['Vencimiento'].toString(), 'MMM-DD-YYYY HH:mm:ssZ');
-      const fecha = moment(data[i]['Fecha'].toString(), 'MMM-DD-YYYY HH:mm:ssZ');
-
-      moment.locale('es');
-      
-
+      doc.text(42.51, space, '*');
       doc.text(53.85, space, data[i]['Tipo'].toString());
       doc.text(85.03, space, data[i]['Numero'].toString());
-      
-      const fFecha = fecha.format('D-MMM-YYYY');
-      const fVenc = venc.format('D-MMM-YYYY');
-      console.log('aqui2', fFecha);
-      doc.text(113.38, space, fFecha);
-      doc.text(161.57, space, fVenc);
+      doc.text(113.38, space, this.formatFecha(moment(data[i]['Fecha'].toString(), 'MMM-DD-YYYY HH:mm:ssZ')));
+      doc.text(161.57, space, this.formatFecha(moment(data[i]['Vencimiento'].toString(), 'MMM-DD-YYYY HH:mm:ssZ')));
       doc.text(215.433, space, data[i]['Dias_Vencido'].toString());
       //doc.text(60, space, data[i]['documento'] != null ? data[i]['documento'].toString() : '');
       if (data[i]['descripcion'] != null) {
         //this.alertUtils.presentOKAlert('!!!!!!!', data[i]['descripcion'].toString().length);
-        if (data[i]['descripcion'].toString().length > 15) {
+        this.cropRenglones(data[i]['descripcion'], doc, space);
+
+        /*if (data[i]['descripcion'].toString().length > 15) {
           doc.text(280.629, space, data[i]['descripcion'].toString().substring(0, 15));
           doc.text(280.629, (space + 5.67), data[i]['descripcion'].toString().substring(15));
         } else {
           doc.text(280.629, space, data[i]['descripcion'].toString());
-        }
+        }*/
       }
       //doc.text(90, space, data[i]['notas'] != null ? data[i]['notas'].toString() : '');
       doc.text(535.74, space, data[i]['Saldo'].toString());
@@ -225,23 +243,17 @@ export class AppComponent {
 
 
     let pdfOutput = doc.output();
-    // using ArrayBuffer will allow you to put image inside PDF
     let buffer = new ArrayBuffer(pdfOutput.length);
     let array = new Uint8Array(buffer);
-
-
     for (var i = 0; i < pdfOutput.length; i++) {
       array[i] = pdfOutput.charCodeAt(i);
     }
 
-    //This is where the PDF file will stored , you can change it as you like
-    // for more information please visit https://ionicframework.com/docs/native/file/
     const directory = this.file.dataDirectory;
     const fileName = "Extracto Cartera.pdf";
     let options2: IWriteOptions = { replace: true };
 
     this.file.checkFile(directory, fileName).then((success) => {
-      //Writing File to Device
       this.file.writeFile(directory, fileName, buffer, options2)
         .then((success) => {
           // this.loading.dismiss();
@@ -280,6 +292,20 @@ export class AppComponent {
           });
       });
   }
+
+  cropRenglones(text: String, doc, space) {
+    if (text.length > 15) {
+      doc.text(280.629, space, text.toString().substring(0, 15));
+      doc.text(280.629, (space + 5.67), text.toString().substring(15));
+    } else {
+      doc.text(280.629, space, text.toString());
+    }
+  }
+
+  formatFecha(fecha) {
+    return fecha.format('D-') + this.months.find(m => m[0] == fecha.format('MM'))[1] + fecha.format('-YYYY');
+  }
+
 
   cerrarSesion() {
     this.appPreferences.clearAll().then((data) => {
