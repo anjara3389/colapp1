@@ -23,8 +23,9 @@ export class HomePage {
         this.appPreferences.fetch('nombres').then((nombres) => {
           this.appPreferences.fetch('sexo').then((sexo) => {
             console.log(nombres);
+            console.log(sexo);
             this.nombres = nombres;
-            this.saludo = 'Bienvenid' + sexo == 'M' ? 'o' : 'a';
+            this.saludo = 'Bienvenid' + (sexo == 'M' ? 'o' : 'a');
             menuCtrl.enable(true);
           });
         });

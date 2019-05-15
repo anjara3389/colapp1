@@ -177,17 +177,17 @@ export class AppComponent {
     doc.setFontStyle('normal');
     doc.text(507.5, 90.71, this.formatFecha(moment()));
     doc.setLineWidth(1.5);
-    doc.line(42.51, 113.38, 467.7, 113.385);
-    doc.text(472.22, 113.385, 'Página');
-    doc.text(524.4, 113.385, '* de');
-    doc.text(552.75, 113.385, '*');
+    doc.line(42.51, 107.71, 467.7, 107.71);
+    doc.text(472.22, 107.71, 'Página');
+    doc.text(524.4, 107.71, '* de');
+    doc.text(552.75, 107.71, '*');
 
     doc.setFontStyle('bold');
     doc.text(45.35, 119.05, data[0]['nombres']);
     doc.text(337.32, 119.05, "NIT");
     doc.setFontStyle('normal');
     doc.text(365.66, 119.05, nit.toString());
-    doc.text(399.68, 119.05, data[0]['ciudad']);
+    doc.text(405.35, 119.05, data[0]['ciudad']);
 
     doc.setFontStyle('bold');
     doc.text(45.35, 133.22, 'DIRECCIÓN:');
@@ -195,9 +195,14 @@ export class AppComponent {
     doc.text(340.15, 133.22, 'TELEFONO:');
     doc.text(385.51, 133.22, !!data[0]['telefono'] ? data[0]['telefono'] : '');
 
-    //FALTA ESTA FILA
-    //doc.text(27, 20, 'CÓDIGO: ' + data[0]['telefono']);
-    //doc.text(27, 20, 'LISTA: ' + data[0]['telefono']);
+    doc.text(36.85, 144.56, 'CÓDIGO');
+    doc.setFontStyle('normal');
+    doc.text(87.87, 144.56, '####');
+    doc.setFontStyle('bold');
+    doc.text(155.90, 144.56, 'LISTA:');
+    doc.setFontStyle('normal');
+    doc.text(187.08, 144.56, '#');
+    doc.text(209.76, 144.56, '#');
 
     //SUBENCABEZADO LISTA
     doc.setFontStyle('bold');
@@ -216,8 +221,10 @@ export class AppComponent {
 
     //CONTENIDO
     doc.setFontStyle('normal');
+    let space = 0;
+    let saldoTotal = 0;
     for (i = 0; i < data.length; i++) {
-      var space = (28.34 * i) + 185.25;
+      space = (28.34 * i) + 185.25;
 
       doc.text(42.51, space, '*');
       doc.text(53.85, space, data[i]['Tipo'].toString());
@@ -225,22 +232,24 @@ export class AppComponent {
       doc.text(113.38, space, this.formatFecha(moment(data[i]['Fecha'].toString(), 'MMM-DD-YYYY HH:mm:ssZ')));
       doc.text(161.57, space, this.formatFecha(moment(data[i]['Vencimiento'].toString(), 'MMM-DD-YYYY HH:mm:ssZ')));
       doc.text(215.433, space, data[i]['Dias_Vencido'].toString());
-      //doc.text(60, space, data[i]['documento'] != null ? data[i]['documento'].toString() : '');
+      //PENDIENTE  doc.text(60, space, data[i]['documento'] != null ? data[i]['documento'].toString() : '');
       if (data[i]['descripcion'] != null) {
-        //this.alertUtils.presentOKAlert('!!!!!!!', data[i]['descripcion'].toString().length);
         this.cropRenglones(data[i]['descripcion'], doc, space);
-
-        /*if (data[i]['descripcion'].toString().length > 15) {
-          doc.text(280.629, space, data[i]['descripcion'].toString().substring(0, 15));
-          doc.text(280.629, (space + 5.67), data[i]['descripcion'].toString().substring(15));
-        } else {
-          doc.text(280.629, space, data[i]['descripcion'].toString());
-        }*/
       }
-      //doc.text(90, space, data[i]['notas'] != null ? data[i]['notas'].toString() : '');
+      //PENDIENTE   doc.text(90, space, data[i]['notas'] != null ? data[i]['notas'].toString() : '');
       doc.text(535.74, space, data[i]['Saldo'].toString());
+      // console.log("saldo11111" + parseFloat(data[i]['Saldo'].toString()));
+      saldoTotal += parseFloat(data[i]['Saldo'].toString());
+
     }
 
+    //FOOTER
+    doc.setFontStyle('normal');
+    const dif = space + 31.18
+    doc.line(28.34, dif, 581.102, dif);
+    doc.text(70.86, dif, 'Codi####');
+    doc.text(110.551, dif, data[0]['nombres']);
+    doc.text(518.740, dif, saldoTotal.toString());
 
     let pdfOutput = doc.output();
     let buffer = new ArrayBuffer(pdfOutput.length);
@@ -294,11 +303,11 @@ export class AppComponent {
   }
 
   cropRenglones(text: String, doc, space) {
-    if (text.length > 15) {
-      doc.text(280.629, space, text.toString().substring(0, 15));
-      doc.text(280.629, (space + 5.67), text.toString().substring(15));
+    if (text.length > 16) {
+      doc.text(263.62, space, text.toString().substring(0, 16));
+      doc.text(263.62, (space + 8.50), text.toString().substring(16));
     } else {
-      doc.text(280.629, space, text.toString());
+      doc.text(263.62, space, text.toString());
     }
   }
 
